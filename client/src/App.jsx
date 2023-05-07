@@ -59,7 +59,7 @@ function App() {
       <form onSubmit={handleSubmit}>
         <div className="py-4">
           {medications.map((medication, index) => (
-            <div key={index}>
+            <div key={index} className='py-2'>
               <label>Medication #{index + 1} </label>
               <input
                 type="text"
@@ -69,7 +69,7 @@ function App() {
               />
               
               <button type="button" onClick={() => handleRemoveMedication(index)} className='pl-4 '>
-              <i className='fa-solid fa-trash text-white rounded-full hover:scale-125 hover:outline hover:outline-white hover:outline-offset-4' />
+              <i className='fa-solid fa-trash text-white rounded-full hover:scale-125 hover:outline hover:outline-amber-600 hover:outline-offset-4' />
               </button>
               
             </div>
