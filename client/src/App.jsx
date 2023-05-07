@@ -91,7 +91,7 @@ function App() {
               return (
                 <li key={index}>
                   <p>
-                    {result.term} ({result.percentage.toFixed(2)}%)
+                    <span className='text-amber-600'>{result.term}</span> ({result.percentage.toFixed(2)}%)
                   </p>
                 </li>
               )
