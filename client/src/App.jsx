@@ -52,6 +52,10 @@ function App() {
 
   return (
     <section className="bg-blue-950 text-white">
+      <h1 className='text-4xl font-semibold pt-6'>Side <span className='font-bold text-4xl text-amber-600'>FX</span></h1>
+      <h3 className='text-white pt-6 pb-12 italic'>Enter the exact name of your medication in the box below. <br/>
+      You can add more by clicking 'Add Medication' and can remove them by clicking the trash button.
+      </h3>
       <form onSubmit={handleSubmit}>
         <div className="py-4">
           {medications.map((medication, index) => (
@@ -63,17 +67,19 @@ function App() {
                 value={medication}
                 onChange={(e) => handleMedicationChange(e, index)}
               />
-              <button type="button" onClick={() => handleRemoveMedication(index)} className='text-blue-950 ml-4 border-2 border-solid border-white w-auto p-1 rounded-lg bg-blue-100 px-2'>
-                Remove
+              
+              <button type="button" onClick={() => handleRemoveMedication(index)} className='pl-4 '>
+              <i className='fa-solid fa-trash text-white rounded-full hover:scale-125 hover:outline hover:outline-white hover:outline-offset-4' />
               </button>
+              
             </div>
           ))}
         </div>
         <div className="flex flex-row gap-4 py-2 justify-center text-blue-950">
-          <button type="button" onClick={handleAddMedication} className='border-2 border-solid border-white w-auto p-1 rounded-lg bg-blue-100 px-2'>
+          <button type="button" onClick={handleAddMedication} className='hover:scale-110 text-white w-auto py-2 rounded-lg bg-amber-600 px-4'>
             Add Medication
           </button>
-          <button type="submit" className="border-2 border-solid border-white w-auto p-1 rounded-lg bg-blue-100 px-2">
+          <button type="submit" className="hover:scale-110 text-white w-auto py-2 rounded-lg bg-amber-600 px-4">
             {loading ? 'Loading...' : 'Submit'}
           </button>
         </div>
@@ -96,7 +102,7 @@ function App() {
         </ul>
         </div>
       <div className="grid grid-cols-1 justify-center place-content-center justify-items-center py-4">
-        <div className="font-bold">Total Count: {sum} </div>
+        <div className="font-bold text-amber-600 text-2xl">Total Count: <span className='text-white'>{sum}</span></div>
       </div>
     </section>
   )
