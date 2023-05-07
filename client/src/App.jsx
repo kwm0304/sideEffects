@@ -11,21 +11,16 @@ function App() {
     setMedication(medication)
     const res = await fetch (`https://api.fda.gov/drug/event.json?search=patient.drug.openfda.substance_name:${medication}&count=patient.reaction.reactionmeddrapt.exact`)
     const data = await res.json()
-    setResults(data.results)
+    const results = data.results;
+    setResults(results)
     console.log('data', data)
     console.log('results', results)
   }
+  const sum = results ? results.reduce((acc, cur) => acc + cur.count, 0) : 0;
 
-  //TODO: take sum as denominator and assign each results.count as percentages of total
-  const findPercent = (arr, percent) => {
-    const sum = results ? results.reduce((acc, cur) => acc + cur.count, 0) : 0;
-    const part = []
-    let curr = 0;
-    for ( let i = 0; i < results.length; i ++) {
-      curr + results.count[i];
-      
-    }
-  }
+  
+  
+  
   return (
     <section className='bg-blue-950 text-white'>
       <form onSubmit={handleSubmit} >
@@ -40,11 +35,14 @@ function App() {
       </form>
       <div className="container grid grid-cols">
         <ul>
-          {results ? results.map((result) => (
+          {results ? results.map((result) => {
+            const percent = ((result.count / sum)*100).toFixed(2);
+            return (
             <li key={result.term}>
-              <p>{result.term}{result.count}</p>
+              <p>{result.term} ({percent}%)</p>
             </li>
-          )) : 
+            )}
+            ) : 
           (<p>No results to display</p>)
           }
         </ul>
