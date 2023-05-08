@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import './App.css'
 
@@ -10,6 +11,7 @@ function App() {
     const newMedications = [...medications]
     newMedications[index] = e.target.value
     setMedications(newMedications)
+    setResults([])
   }
 
   const handleAddMedication = () => {
@@ -41,18 +43,27 @@ function App() {
       results.push(...percentageResults)
     }
     setLoading(false)
-    setResults(orderByPercentage(results))
+    const uniqueResults = Array.from(new Set(results.map(result => result.term))).map(term => {
+      const filteredResults = results.filter(result => result.term === term)
+      const totalCount = filteredResults.reduce((acc, cur) => acc + cur.count, 0)
+      const percentage = (totalCount / results.reduce((acc, cur) => acc + cur.count, 0)) * 100
+      return {
+        term: term,
+        count: totalCount,
+        percentage: percentage
+      }
+    })
+    setResults(orderByPercentage(uniqueResults))
   }
 
   const orderByPercentage = (results) => {
-    return results.sort((a, b) => b.percentage - a.percentage)
+    return results.sort((a, b) => b.count - a.count)
   }
 
   const sum = results ? results.reduce((acc, cur) => acc + cur.count, 0) : 0
-
   return (
     <section className="bg-blue-950 text-white">
-      <h1 className='text-4xl font-semibold pt-6'>Side<span className='font-bold text-4xl text-amber-600'>FX</span></h1>
+      <h1 className='text-4xl font-semibold pt-6'>Side <span className='font-bold text-4xl text-amber-600'>FX</span></h1>
       <h3 className='text-white pt-6 pb-12 italic'>Enter the exact name of your medication in the box below. <br/>
       You can add more by clicking 'Add Medication' and can remove them by clicking the trash button.
       </h3>
@@ -67,11 +78,9 @@ function App() {
                 value={medication}
                 onChange={(e) => handleMedicationChange(e, index)}
               />
-              
               <button type="button" onClick={() => handleRemoveMedication(index)} className='pl-6 '>
               <i className='fa-solid fa-trash text-white  rounded-full hover:scale-125 hover:outline hover:outline-amber-600 hover:outline-offset-4' />
               </button>
-              
             </div>
           ))}
         </div>
@@ -100,12 +109,13 @@ function App() {
             <p>No results to display</p>
           )}
         </ul>
-        </div>
+      </div>
       <div className="grid grid-cols-1 justify-center place-content-center justify-items-center py-4">
         <div className="font-bold text-amber-600 text-2xl">Total Count: <span className='text-white'>{sum}</span></div>
       </div>
     </section>
   )
+
 }
 
 export default App
