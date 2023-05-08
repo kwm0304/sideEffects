@@ -71,6 +71,12 @@ function App() {
     console.log('uniqueResults', uniqueResults)
   }
 
+  const reset = () => {
+    setMedications([''])
+    setResults([])
+    setLoading(false)
+    setData([])
+  }
 
   const orderByPercentage = (results) => {
     return results.sort((a, b) => b.count - a.count)
@@ -134,8 +140,10 @@ function App() {
         <p>No results</p>}
       </div>
 
-      <div className="grid grid-cols-1 justify-center place-content-center justify-items-center ">
-        <div className="font-bold text-amber-600 text-2xl">Total Count: <span className='text-white'>{sum}</span></div>
+      <div className="grid grid-cols-1 gap-4 text-xl justify-center place-content-center justify-items-center ">
+      <button className=' hover:scale-110 text-white w-auto py-2 rounded-lg bg-amber-600 px-4' onClick={reset}>Reset</button>
+        <div className="font-bold text-amber-600 text-2xl pb-2">Total Count: <span className='text-white'>{sum}</span></div>
+        
       </div>
     </section>
   )
