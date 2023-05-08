@@ -52,7 +52,7 @@ function App() {
 
   return (
     <section className="bg-blue-950 text-white">
-      <h1 className='text-4xl font-semibold pt-6'>Side <span className='font-bold text-4xl text-amber-600'>FX</span></h1>
+      <h1 className='text-4xl font-semibold pt-6'>Side<span className='font-bold text-4xl text-amber-600'>FX</span></h1>
       <h3 className='text-white pt-6 pb-12 italic'>Enter the exact name of your medication in the box below. <br/>
       You can add more by clicking 'Add Medication' and can remove them by clicking the trash button.
       </h3>
@@ -63,13 +63,13 @@ function App() {
               <label>Medication #{index + 1} </label>
               <input
                 type="text"
-                className="rounded-lg text-blue-950"
+                className="rounded-lg text-blue-950 p-1"
                 value={medication}
                 onChange={(e) => handleMedicationChange(e, index)}
               />
               
-              <button type="button" onClick={() => handleRemoveMedication(index)} className='pl-4 '>
-              <i className='fa-solid fa-trash text-white rounded-full hover:scale-125 hover:outline hover:outline-amber-600 hover:outline-offset-4' />
+              <button type="button" onClick={() => handleRemoveMedication(index)} className='pl-6 '>
+              <i className='fa-solid fa-trash text-white  rounded-full hover:scale-125 hover:outline hover:outline-amber-600 hover:outline-offset-4' />
               </button>
               
             </div>
@@ -91,7 +91,7 @@ function App() {
               return (
                 <li key={index}>
                   <p>
-                    <span className='text-amber-600'>{result.term}</span> ({result.percentage.toFixed(2)}%)
+                    <span className='text-amber-500 font-semibold'>{result.term}</span> ({result.percentage.toFixed(2)}%)
                   </p>
                 </li>
               )
