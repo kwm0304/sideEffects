@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import './App.css'
 
@@ -106,7 +105,7 @@ function App() {
               )
             })
           ) : (
-            <p>No results to display</p>
+            <p>No results to display. Check the spelling of medication or look up exact name. (e.g. Tylenol doesn't work but acetaminophen will)</p>
           )}
         </ul>
       </div>
