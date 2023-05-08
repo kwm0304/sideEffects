@@ -1,6 +1,5 @@
 //TODO: Add error handling if fetch fails
 //If fetch fails, submit btn gets stuck on loading... 
-//Implement pie chart, https://www.npmjs.com/package/react-minimal-pie-chart
 import { useState } from 'react'
 import './App.css'
 import { PieChart } from 'react-minimal-pie-chart'
@@ -69,11 +68,10 @@ function App() {
     }).slice(0, 20)
     setResults(orderByPercentage(uniqueResults))
     setData(uniqueResults)
-    
     console.log('uniqueResults', uniqueResults)
   }
 
-  
+
   const orderByPercentage = (results) => {
     return results.sort((a, b) => b.count - a.count)
   }
@@ -98,12 +96,13 @@ function App() {
         <div className="py-4">
           {medications.map((medication, index) => (
             <div key={index} className='py-2'>
-              <label>Medication #{index + 1} </label>
+              <label htmlFor='medication'>Medication #{index + 1} </label>
               <input
                 type="text"
                 className="rounded-lg text-blue-950 p-1"
                 value={medication}
                 onChange={(e) => handleMedicationChange(e, index)}
+                required
               />
               <button type="button" onClick={() => handleRemoveMedication(index)} className='pl-6 '>
               <i className='fa-solid fa-trash text-white  rounded-full hover:scale-125 hover:outline hover:outline-amber-600 hover:outline-offset-4' />
@@ -128,7 +127,6 @@ function App() {
         labelStyle={defaultLabelStyle} 
         startAngle={90}
         labelPosition={75}
-        
         totalValue={sum}
         toolTip={({dataEntry}) => `${dataEntry.title}`}
         className='text-white scale-75 text-xs'/>
