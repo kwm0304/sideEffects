@@ -9,6 +9,7 @@ function App() {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
+  const [subname, setSubname] = useState(null)
 
   const handleMedicationChange = (e, index) => {
     const newMedications = [...medications]
@@ -27,11 +28,29 @@ function App() {
     setMedications(newMedications)
   }
 
+  // Set the base URL for the RxNav API
+  const baseUrl = 'https://rxnav.nlm.nih.gov/REST/';
+  async function getMedicationByGenericName(name) {
+    const url = `${baseUrl}drugs.json?name=${name}&search=2`;
+    console.log('url', url)
+    const response = await fetch(url);
+    const data = await response.json();
+    const med = data.drugGroup.conceptGroup[1].conceptProperties[0];
+    console.log('med', {med})
+    setSubname(med.name)
+    return {
+      name: med.name,
+      rxNormId: med.rxcui,
+      synonyms: med.synonym
+    };
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     const results = []
     for (const medication of medications) {
+      try {
       const res = await fetch(`https://api.fda.gov/drug/event.json?search=patient.drug.openfda.substance_name:${medication}&count=patient.reaction.reactionmeddrapt.exact`)
       const data = await res.json()
       const countResults = data.results
@@ -46,6 +65,9 @@ function App() {
       })
       results.push(...percentageResults)
       console.log('DATA', data)
+    } catch (error) {
+      console.log('Error', error)
+      getMedicationByGenericName(medication)
     }
     setLoading(false)
     const uniqueResults = Array.from(new Set(results.map(result => result.title))).map(title => {
@@ -70,7 +92,7 @@ function App() {
     setData(uniqueResults)
     console.log('uniqueResults', uniqueResults)
   }
-
+  }
   const reset = () => {
     setMedications([''])
     setResults([])
@@ -83,14 +105,13 @@ function App() {
   }
 
   const sum = results ? results.reduce((acc, cur) => acc + cur.value, 0) : 0
-  console.log(sum)
 
   const defaultLabelStyle = {
     fontSize: '1.5px',
     fontFamily: 'sans-serif',
     fill: 'white'
-    
   }
+
   return (
     <section className="bg-blue-950 text-white">
       <h1 className='text-4xl font-semibold pt-6'>Side <span className='font-bold text-4xl text-amber-600'>FX</span></h1>
@@ -116,6 +137,7 @@ function App() {
             </div>
           ))}
         </div>
+        {subname ? <div>No results for that term, could you have meant {subname}?</div> : ''}
         <div className="font-bold text-amber-600 text-2xl pb-2">Total Number of Reports: <span className='text-white'>{sum}</span></div>
         <div className="flex flex-row gap-4 py-2 justify-center text-blue-950">
           <button type="button" onClick={handleAddMedication} className='hover:scale-110 text-white w-auto py-2 rounded-lg bg-amber-600 px-4'>
@@ -143,14 +165,8 @@ function App() {
         :
         <p>No results</p>}
       </div>
-
-      <div className="grid grid-cols-1  text-xl justify-center place-content-center justify-items-center ">
-      
-        
-      </div>
     </section>
   )
-
 }
 
 export default App
