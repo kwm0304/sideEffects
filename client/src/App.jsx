@@ -116,6 +116,7 @@ function App() {
             </div>
           ))}
         </div>
+        <div className="font-bold text-amber-600 text-2xl pb-2">Total Number of Reports: <span className='text-white'>{sum}</span></div>
         <div className="flex flex-row gap-4 py-2 justify-center text-blue-950">
           <button type="button" onClick={handleAddMedication} className='hover:scale-110 text-white w-auto py-2 rounded-lg bg-amber-600 px-4'>
             Add Medication
@@ -124,6 +125,9 @@ function App() {
             {loading ? 'Loading...' : 'Submit'}
           </button>
         </div>
+        {results.length > 0 && (
+        <button className=' hover:scale-110 text-white w-auto py-2 rounded-lg bg-amber-600 px-4 w-32' onClick={reset}>Reset</button>
+        )}
       </form>
       <div>
         {data ? 
@@ -140,9 +144,8 @@ function App() {
         <p>No results</p>}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 text-xl justify-center place-content-center justify-items-center ">
-      <button className=' hover:scale-110 text-white w-auto py-2 rounded-lg bg-amber-600 px-4' onClick={reset}>Reset</button>
-        <div className="font-bold text-amber-600 text-2xl pb-2">Total Count: <span className='text-white'>{sum}</span></div>
+      <div className="grid grid-cols-1  text-xl justify-center place-content-center justify-items-center ">
+      
         
       </div>
     </section>
